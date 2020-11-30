@@ -66,7 +66,29 @@ class ClientServer {
                 };
 
                 this.ftpClient = createFtpClient(options);
+                this.ftpClient
+                    .connect()
+                    .then(() => {
+                        return this.ftpClient.list();
+                    })
+                    .then((data) => {
+                        console.log(this.formatFileList(data));
+                    })
+                    .then(() => {
+                        this.ftpClient.end();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
             });
+    }
+
+    /**
+     * 格式化文件列表
+     * @param {*} data 
+     */
+    formatFileList (data) {
+        return data;
     }
 }
 
