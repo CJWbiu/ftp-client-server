@@ -1,0 +1,17 @@
+{
+    "ftp": {
+        "host": "47.107.157.97",
+        "port": 21,
+        "user": "ftp",
+        "password": "Admin@123",
+        "root": "/cjw"
+    },
+
+    "sftp": {
+        "host": "47.107.157.97",
+        "port": 22,
+        "user": "sftp",
+        "password": "Admin@123",
+        "root": "/cjw"
+    }
+}
