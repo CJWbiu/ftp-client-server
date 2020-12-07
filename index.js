@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const inquirer = require('inquirer');
 const program = require('commander');
 const createFtpClient = require('./lib/ftp');
 
@@ -17,17 +14,18 @@ class ClientServer {
 
     initCommand () {
         program
-            // .command('upload <source>')
-            // .option('-t, --target <target>', 'target file path')
-            // .option('-p, --protocal [protocal]', 'protocal')
-            // .action((source, cmd) => {
-            //     this.uploadFile(source, cmd.target, cmd.protocal);
-            // })
+            .command('upload <source>')
+            .option('-t, --target <target>', 'target file path')
+            .option('-p, --protocal [protocal]', 'protocal')
+            .action((source, cmd) => {
+                this.uploadFile(source, cmd.target, cmd.protocal);
+            });
+
+        program
             .command('download <source>')
             .option('-t, --target <target>', 'target file path')
             .option('-p, --protocal [protocal]', 'protocal')
             .action((source, cmd) => {
-                console.log(source, cmd.target, cmd.protocal)
                 this.downloadFile(source, cmd.target, cmd.protocal);
             });
 
@@ -48,14 +46,6 @@ class ClientServer {
             .then(() => {
                 console.log('下载成功');
             });
-    }
-
-    /**
-     * 格式化文件列表
-     * @param {*} data 
-     */
-    formatFileList (data) {
-        return data;
     }
 }
 
