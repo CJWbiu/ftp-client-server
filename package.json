@@ -12,6 +12,7 @@
     "commander": "^6.2.0",
     "ftp": "^0.3.10",
     "inquirer": "^7.3.3",
+    "log4js": "^6.3.0",
     "ssh2-sftp-client": "^5.3.2"
   }
 }

@@ -2,6 +2,7 @@
 
 const program = require('commander');
 const createFtpClient = require('./lib/ftp');
+const logger = require('./util').getLogger();
 
 class ClientServer {
     constructor () {
@@ -36,7 +37,10 @@ class ClientServer {
         createFtpClient(protocal)
             .upload(source, target)
             .then(() => {
-                console.log('上传成功');
+                logger.info('上传成功');
+            })
+            .catch(err => {
+                logger.error(`上传失败：${err}`);
             });
     }
 
@@ -44,8 +48,11 @@ class ClientServer {
         createFtpClient(protocal)
             .download(source, target)
             .then(() => {
-                console.log('下载成功');
-            });
+                logger.info('下载成功');
+            })
+            .catch(err => {
+                logger.error(`下载失败：${err}`);
+            });;
     }
 }
 
