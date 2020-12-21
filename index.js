@@ -1,16 +1,30 @@
 #!/usr/bin/env node
 
+const fs = require('fs');
+const path = require('path');
 const program = require('commander');
-const createFtpClient = require('./lib/ftp');
-const logger = require('./util').getLogger();
+const FtpTool = require('./lib/ftp/ftp-tool');
+const logger = require('./logger');
 
 class ClientServer {
     constructor () {
+        this.config = {};
         this.init();
     }
 
     init () {
+        this.initDefaultConfig();
         this.initCommand();
+    }
+
+    initDefaultConfig () {
+        try {
+            let jsonData = JSON.parse(fs.readFileSync(path.resolve('./config.json'), { encoding: 'utf-8' })); 
+            this.config = jsonData;
+        } catch (error) {
+            logger.error(`读取配置文件失败：${ error }`);
+            return;
+        }
     }
 
     initCommand () {
@@ -34,7 +48,8 @@ class ClientServer {
     }
 
     uploadFile (source, target, protocal = 'ftp') {
-        createFtpClient(protocal)
+        let client = new FtpTool(protocal, this.config[protocal]);
+        client
             .upload(source, target)
             .then(() => {
                 logger.info('上传成功');
@@ -45,7 +60,8 @@ class ClientServer {
     }
 
     downloadFile (source, target, protocal = 'ftp') {
-        createFtpClient(protocal)
+        let client = new FtpTool(protocal, this.config[protocal]);
+        client
             .download(source, target)
             .then(() => {
                 logger.info('下载成功');
