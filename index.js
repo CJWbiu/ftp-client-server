@@ -33,7 +33,7 @@ class ClientServer {
             .option('-t, --target <target>', 'target file path')
             .option('-p, --protocal [protocal]', 'protocal')
             .action((source, cmd) => {
-                this.uploadFile(source, cmd.target, cmd.protocal);
+                this.uploadFile(source.split(','), cmd.target, cmd.protocal);
             });
 
         program
