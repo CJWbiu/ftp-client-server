@@ -1,4 +1,4 @@
-const FtpTool = require('../lib/ftp/ftp-tool');
+const Uploader = require('../lib/uploader');
 
 let options = {
     "host": "47.107.157.97",
@@ -10,7 +10,7 @@ let options = {
 
 describe('连接测试', () => {
     test('测试连接', () => {
-        let ftpClient = new FtpTool('ftp', options);
+        let ftpClient = new Uploader('ftp', options);
         return expect(ftpClient.connect())
             .resolves
             .toBeUndefined();
@@ -19,7 +19,7 @@ describe('连接测试', () => {
 
 describe('上传测试', () => {
     test('测试上传本地不存在的文件', () => {
-        let ftpClient = new FtpTool('ftp', options);
+        let ftpClient = new Uploader('ftp', options);
         
         return expect(ftpClient.upload('xxxx', './'))
             .rejects
@@ -27,14 +27,14 @@ describe('上传测试', () => {
     });
     
     test('测试上传存在的文件', () => {
-        let ftpClient = new FtpTool('ftp', options);
+        let ftpClient = new Uploader('ftp', options);
         return expect(ftpClient.upload('./files/img1.jpeg', './'))
             .resolves
             .toBeUndefined();
     });
     
     test('测试上传多个存在的文件', () => {
-        let ftpClient = new FtpTool('ftp', options);
+        let ftpClient = new Uploader('ftp', options);
         let fileList = ['./files/img1.jpeg', './files/inner/img2.jpeg'];
         return expect(ftpClient.upload(fileList, './'))
             .resolves
@@ -42,7 +42,7 @@ describe('上传测试', () => {
     });
     
     test('测试上传多个存在的文件包含文件夹', () => {
-        let ftpClient = new FtpTool('ftp', options);
+        let ftpClient = new Uploader('ftp', options);
         let fileList = ['./files', './files/inner/img2.jpeg'];
         return expect(ftpClient.upload(fileList, './'))
             .resolves
@@ -52,21 +52,21 @@ describe('上传测试', () => {
 
 describe('下载测试', () => {
     test('测试下载文件成功', () => {
-        let ftpClient = new FtpTool('ftp', options);
+        let ftpClient = new Uploader('ftp', options);
         return expect(ftpClient.download('./img1.jpeg', './files'))
             .resolves
             .toBeUndefined();
     });
     
     test('测试下载：本地路径不存在', () => {
-        let ftpClient = new FtpTool('ftp', options);
+        let ftpClient = new Uploader('ftp', options);
         return expect(ftpClient.download('./img1.jpeg', './xxx'))
             .rejects
             .toThrow('下载文件存放路径不存在');
     });
     
     test('测试下载：本地路径不是文件夹', () => {
-        let ftpClient = new FtpTool('ftp', options);
+        let ftpClient = new Uploader('ftp', options);
         return expect(ftpClient.download('./img1.jpeg', './files/img1.jpeg'))
             .rejects
             .toThrow('下载文件存放路径必须是文件夹');
