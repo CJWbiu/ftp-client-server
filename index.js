@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const program = require('commander');
-const FtpTool = require('./lib/ftp/ftp-tool');
+const Uploader = require('./lib/uploader');
 const logger = require('./logger');
 
 class ClientServer {
@@ -48,7 +48,7 @@ class ClientServer {
     }
 
     uploadFile (source, target, protocal = 'ftp') {
-        let client = new FtpTool(protocal, this.config[protocal]);
+        let client = new Uploader(protocal, this.config[protocal]);
         client
             .upload(source, target)
             .then(() => {
@@ -60,7 +60,7 @@ class ClientServer {
     }
 
     downloadFile (source, target, protocal = 'ftp') {
-        let client = new FtpTool(protocal, this.config[protocal]);
+        let client = new Uploader(protocal, this.config[protocal]);
         client
             .download(source, target)
             .then(() => {
